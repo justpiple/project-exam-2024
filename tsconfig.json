@@ -1,0 +1,18 @@
+{
+  "ts-node": {
+    "require": ["tsconfig-paths/register"],
+    // "swc": true,
+    // "esm": true,
+    "transpileOnly": true
+  },
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}

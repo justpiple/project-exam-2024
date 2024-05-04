@@ -53,7 +53,7 @@ var CurrentSession = function (req, res) {
 exports.CurrentSession = CurrentSession;
 // Fungsi login
 var Login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, match, id_siswa, email, name, role, token;
+    var user, match, id, email, name, role, token;
     return __generator(this, function (_a) {
         try {
             user = {};
@@ -65,11 +65,11 @@ var Login = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
             if (!match) {
                 return [2 /*return*/, res.status(401).json((0, apiResponse_1.Unauthorize)("Email atau Password salah!"))];
             }
-            id_siswa = user === null || user === void 0 ? void 0 : user.id;
+            id = user === null || user === void 0 ? void 0 : user.id;
             email = user === null || user === void 0 ? void 0 : user.email;
             name = user === null || user === void 0 ? void 0 : user.name;
             role = user === null || user === void 0 ? void 0 : user.role;
-            token = jsonwebtoken_1.default.sign({ id: id_siswa, name: name, email: email, role: role }, process.env.JWT_SECRET, {
+            token = jsonwebtoken_1.default.sign({ id: id, name: name, email: email, role: role }, process.env.JWT_SECRET, {
                 expiresIn: "15d",
             });
             // Membuat http cookie yang dikirimkan ke sisi client
@@ -82,7 +82,7 @@ var Login = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
             res.json((0, apiResponse_1.Success)("Login success", {
                 data: {
                     token: token,
-                    id: id_siswa,
+                    id: id,
                     name: name,
                     role: role,
                 },

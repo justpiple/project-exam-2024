@@ -14,5 +14,4 @@ if (process.env.NODE_ENV !== "production") {
   prisma = global.prisma;
 }
 
-prisma.$use;
 export default prisma;

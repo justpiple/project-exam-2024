@@ -1,5 +1,6 @@
 import { InternalServerError, Success, Unauthorize } from "@/utils/apiResponse";
 import { compareHash } from "@/utils/encryption";
+import { findUser } from "@/utils/queries/user.queries";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
@@ -11,17 +12,10 @@ export const CurrentSession = (req: Request, res: Response) => {
   res.json(Success("Success load current user", { data: req.token }));
 };
 
-interface LoginReqProps extends Request {
-  body: {
-    email: string;
-    password: string;
-  };
-}
-
 // Fungsi login
-export const Login = async (req: LoginReqProps, res: Response) => {
+export const Login = async (req: Request, res: Response) => {
   try {
-    const user: any = {};
+    const user = await findUser({ email: req.body.email });
 
     if (!user) {
       return res.status(401).json(Unauthorize("Email atau Password salah!"));
@@ -35,14 +29,14 @@ export const Login = async (req: LoginReqProps, res: Response) => {
       return res.status(401).json(Unauthorize("Email atau Password salah!"));
     }
 
-    const id_siswa = user?.id;
+    const id = user?.id;
     const email = user?.email;
     const name = user?.name;
     const role = user?.role;
 
     // Membuat refresh token
     const token = jwt.sign(
-      { id: id_siswa, name, email, role: role },
+      { id, name, email, role: role },
       process.env.JWT_SECRET,
       {
         expiresIn: "15d",
@@ -60,7 +54,7 @@ export const Login = async (req: LoginReqProps, res: Response) => {
       Success("Login success", {
         data: {
           token,
-          id: id_siswa,
+          id,
           name,
           role,
         },

@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Login = exports.CurrentSession = exports.Logout = void 0;
 var apiResponse_1 = require("@/utils/apiResponse");
 var encryption_1 = require("@/utils/encryption");
+var user_queries_1 = require("@/utils/queries/user.queries");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var Logout = function (req, res) {
     res.clearCookie("token").end();
@@ -53,49 +54,54 @@ var CurrentSession = function (req, res) {
 exports.CurrentSession = CurrentSession;
 // Fungsi login
 var Login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, match, id, email, name, role, token;
+    var user, match, id, email, name, role, token, error_1;
     return __generator(this, function (_a) {
-        try {
-            user = {};
-            if (!user) {
-                return [2 /*return*/, res.status(401).json((0, apiResponse_1.Unauthorize)("Email atau Password salah!"))];
-            }
-            match = (0, encryption_1.compareHash)(req.body.password, user === null || user === void 0 ? void 0 : user.password);
-            //Jika password dan confirm password tidak cocok
-            if (!match) {
-                return [2 /*return*/, res.status(401).json((0, apiResponse_1.Unauthorize)("Email atau Password salah!"))];
-            }
-            id = user === null || user === void 0 ? void 0 : user.id;
-            email = user === null || user === void 0 ? void 0 : user.email;
-            name = user === null || user === void 0 ? void 0 : user.name;
-            role = user === null || user === void 0 ? void 0 : user.role;
-            token = jsonwebtoken_1.default.sign({ id: id, name: name, email: email, role: role }, process.env.JWT_SECRET, {
-                expiresIn: "15d",
-            });
-            // Membuat http cookie yang dikirimkan ke sisi client
-            res.cookie("token", token, {
-                httpOnly: true,
-                maxAge: 15 * 24 * 60 * 60 * 1000, //expired dalam 15 hari
-                secure: true,
-                sameSite: "none",
-            });
-            res.json((0, apiResponse_1.Success)("Login success", {
-                data: {
-                    token: token,
-                    id: id,
-                    name: name,
-                    role: role,
-                },
-            }));
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, (0, user_queries_1.findUser)({ email: req.body.email })];
+            case 1:
+                user = _a.sent();
+                if (!user) {
+                    return [2 /*return*/, res.status(401).json((0, apiResponse_1.Unauthorize)("Email atau Password salah!"))];
+                }
+                match = (0, encryption_1.compareHash)(req.body.password, user === null || user === void 0 ? void 0 : user.password);
+                //Jika password dan confirm password tidak cocok
+                if (!match) {
+                    return [2 /*return*/, res.status(401).json((0, apiResponse_1.Unauthorize)("Email atau Password salah!"))];
+                }
+                id = user === null || user === void 0 ? void 0 : user.id;
+                email = user === null || user === void 0 ? void 0 : user.email;
+                name = user === null || user === void 0 ? void 0 : user.name;
+                role = user === null || user === void 0 ? void 0 : user.role;
+                token = jsonwebtoken_1.default.sign({ id: id, name: name, email: email, role: role }, process.env.JWT_SECRET, {
+                    expiresIn: "15d",
+                });
+                // Membuat http cookie yang dikirimkan ke sisi client
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    maxAge: 15 * 24 * 60 * 60 * 1000, //expired dalam 15 hari
+                    secure: true,
+                    sameSite: "none",
+                });
+                res.json((0, apiResponse_1.Success)("Login success", {
+                    data: {
+                        token: token,
+                        id: id,
+                        name: name,
+                        role: role,
+                    },
+                }));
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _a.sent();
+                console.log(error_1);
+                return [2 /*return*/, res
+                        .status(500)
+                        .json((0, apiResponse_1.InternalServerError)("Email atau Password salah!"))];
+            case 3: return [2 /*return*/];
         }
-        catch (error) {
-            console.log(error);
-            return [2 /*return*/, res
-                    .status(500)
-                    .json((0, apiResponse_1.InternalServerError)("Email atau Password salah!"))];
-        }
-        return [2 /*return*/];
     });
 }); };
 exports.Login = Login;
-//# sourceMappingURL=auth.controller.js.map
+//# sourceMappingURL=auth.controllers.js.map

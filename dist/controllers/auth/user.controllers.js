@@ -36,20 +36,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.postCreateUser = exports.deleteUser = exports.getUser = exports.getUsers = void 0;
+exports.postCreateUser = void 0;
 var encryption_1 = require("@/utils/encryption");
-var user_queries_1 = require("@/utils/queries/user.queries");
+var admin_queries_1 = require("@/utils/queries/admin.queries");
 var apiResponse_1 = require("@/utils/apiResponse");
-var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var data, error_1;
+var postCreateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, data, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, user_queries_1.findAllUser)()];
+                user = {
+                    email: req.body.email,
+                    name: req.body.name,
+                    password: (0, encryption_1.encrypt)(req.body.password),
+                };
+                return [4 /*yield*/, (0, admin_queries_1.createAdmin)(user)];
             case 1:
                 data = _a.sent();
-                res.json((0, apiResponse_1.Success)("Success load data", { data: data }));
+                res.status(201).json((0, apiResponse_1.CreatedSuccessfully)("Success create data"));
                 return [3 /*break*/, 3];
             case 2:
                 error_1 = _a.sent();
@@ -59,98 +64,5 @@ var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
         }
     });
 }); };
-exports.getUsers = getUsers;
-var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var data, error_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, user_queries_1.findUser)({ id: req.params.id })];
-            case 1:
-                data = _a.sent();
-                if (!data) {
-                    return [2 /*return*/, res.status(404).json((0, apiResponse_1.NotFound)("Data not found"))];
-                }
-                res.json((0, apiResponse_1.Success)("Success load data", { data: data }));
-                return [3 /*break*/, 3];
-            case 2:
-                error_2 = _a.sent();
-                console.log(error_2);
-                return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Internal server error"))];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.getUser = getUser;
-var deleteUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var data, error_3;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, user_queries_1.deleteUserById)(req.params.id)];
-            case 1:
-                data = _a.sent();
-                res.json((0, apiResponse_1.Success)("Success delete data"));
-                return [3 /*break*/, 3];
-            case 2:
-                error_3 = _a.sent();
-                console.log(error_3);
-                return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Internal server error"))];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.deleteUser = deleteUser;
-var postCreateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, data, error_4;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                user = {
-                    email: req.body.email,
-                    name: req.body.name,
-                    password: (0, encryption_1.encrypt)(req.body.password),
-                };
-                return [4 /*yield*/, (0, user_queries_1.createUser)(user)];
-            case 1:
-                data = _a.sent();
-                res.status(201).json((0, apiResponse_1.CreatedSuccessfully)("Success create data"));
-                return [3 /*break*/, 3];
-            case 2:
-                error_4 = _a.sent();
-                console.log(error_4);
-                return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Internal server error"))];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
 exports.postCreateUser = postCreateUser;
-var updateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, data, error_5;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                user = {
-                    email: req.body.email,
-                    name: req.body.name,
-                    password: (0, encryption_1.encrypt)(req.body.password),
-                };
-                return [4 /*yield*/, (0, user_queries_1.updateUserById)(req.params.id, user)];
-            case 1:
-                data = _a.sent();
-                res.status(201).json((0, apiResponse_1.Success)("Success update data"));
-                return [3 /*break*/, 3];
-            case 2:
-                error_5 = _a.sent();
-                console.log(error_5);
-                return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Internal server error"))];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.updateUser = updateUser;
 //# sourceMappingURL=user.controllers.js.map

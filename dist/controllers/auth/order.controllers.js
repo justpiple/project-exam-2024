@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,68 +46,53 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Login = exports.CurrentSession = exports.Logout = void 0;
+exports.postCreateOrder = exports.getOrders = void 0;
+var order_queries_1 = require("@/utils/queries/order.queries");
 var apiResponse_1 = require("@/utils/apiResponse");
-var encryption_1 = require("@/utils/encryption");
-var admin_queries_1 = require("@/utils/queries/admin.queries");
-var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var Logout = function (req, res) {
-    res.clearCookie("token").end();
-};
-exports.Logout = Logout;
-var CurrentSession = function (req, res) {
-    res.json((0, apiResponse_1.Success)("Success load current user", { data: req.token }));
-};
-exports.CurrentSession = CurrentSession;
-// Fungsi login
-var Login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, match, id, email, name, token, error_1;
+var getOrders = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, admin_queries_1.findAdmin)({ email: req.body.email })];
+                return [4 /*yield*/, (0, order_queries_1.findAllOrder)()];
             case 1:
-                user = _a.sent();
-                if (!user) {
-                    return [2 /*return*/, res.status(401).json((0, apiResponse_1.Unauthorize)("Email atau Password salah!"))];
-                }
-                match = (0, encryption_1.compareHash)(req.body.password, user === null || user === void 0 ? void 0 : user.password);
-                //Jika password dan confirm password tidak cocok
-                if (!match) {
-                    return [2 /*return*/, res.status(401).json((0, apiResponse_1.Unauthorize)("Email atau Password salah!"))];
-                }
-                id = user === null || user === void 0 ? void 0 : user.id;
-                email = user === null || user === void 0 ? void 0 : user.email;
-                name = user === null || user === void 0 ? void 0 : user.name;
-                token = jsonwebtoken_1.default.sign({ id: id, name: name, email: email }, process.env.JWT_SECRET, {
-                    expiresIn: "15d",
-                });
-                // Membuat http cookie yang dikirimkan ke sisi client
-                res.cookie("token", token, {
-                    httpOnly: true,
-                    maxAge: 15 * 24 * 60 * 60 * 1000, //expired dalam 15 hari
-                    secure: true,
-                    sameSite: "none",
-                });
-                res.json((0, apiResponse_1.Success)("Login success", {
-                    logged: true,
-                    token: token,
-                }));
+                data = _a.sent();
+                res.json((0, apiResponse_1.Success)("Order list has retrieved", { data: data }));
                 return [3 /*break*/, 3];
             case 2:
                 error_1 = _a.sent();
                 console.log(error_1);
-                return [2 /*return*/, res
-                        .status(500)
-                        .json((0, apiResponse_1.InternalServerError)("Email atau Password salah!"))];
+                return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Internal server error"))];
             case 3: return [2 /*return*/];
         }
     });
 }); };
-exports.Login = Login;
-//# sourceMappingURL=auth.controllers.js.map
+exports.getOrders = getOrders;
+var postCreateOrder = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var order, data, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                order = {
+                    customer_name: req.body.customer_name,
+                    table_number: req.body.table_number,
+                    order_date: req.body.order_date,
+                };
+                return [4 /*yield*/, (0, order_queries_1.createOrder)(__assign(__assign({}, order), { order_detail: { create: req.body.order_detail } }))];
+            case 1:
+                data = _a.sent();
+                res.status(201).json((0, apiResponse_1.Success)("Order list has created", { data: data }));
+                return [3 /*break*/, 3];
+            case 2:
+                error_2 = _a.sent();
+                console.log(error_2);
+                return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Internal server error"))];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.postCreateOrder = postCreateOrder;
+//# sourceMappingURL=order.controllers.js.map

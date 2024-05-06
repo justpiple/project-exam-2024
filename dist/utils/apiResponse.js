@@ -13,7 +13,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotFound = exports.BadRequest = exports.Unauthorize = exports.Forbidden = exports.InternalServerError = exports.CreatedSuccessfully = exports.Success = void 0;
 function Success(message, otherResponses) {
-    return __assign({ message: message, status: 200, success: true }, otherResponses);
+    return __assign({ message: message, status: true }, otherResponses);
 }
 exports.Success = Success;
 function CreatedSuccessfully(message, otherResponses) {

@@ -22,6 +22,7 @@ var rootRoute = fs_1.default.readdirSync("./src/routes");
 rootRoute
     .filter(function (file) {
     return (/.(js|ts)$/.test(file) ||
+        file.startsWith("_") ||
         fs_1.default.lstatSync(__dirname + "/routes/" + file).isDirectory());
 })
     .forEach(function (file) {

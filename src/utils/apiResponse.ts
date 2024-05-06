@@ -1,5 +1,5 @@
 export function Success(message: string, otherResponses?: Object) {
-  return { message, status: 200, success: true, ...otherResponses };
+  return { message, status: true, ...otherResponses };
 }
 
 export function CreatedSuccessfully(message: string, otherResponses?: Object) {

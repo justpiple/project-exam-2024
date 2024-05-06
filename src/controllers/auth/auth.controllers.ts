@@ -1,6 +1,6 @@
 import { InternalServerError, Success, Unauthorize } from "@/utils/apiResponse";
 import { compareHash } from "@/utils/encryption";
-import { findUser } from "@/utils/queries/user.queries";
+import { findAdmin } from "@/utils/queries/admin.queries";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
@@ -15,7 +15,7 @@ export const CurrentSession = (req: Request, res: Response) => {
 // Fungsi login
 export const Login = async (req: Request, res: Response) => {
   try {
-    const user = await findUser({ email: req.body.email });
+    const user = await findAdmin({ email: req.body.email });
 
     if (!user) {
       return res.status(401).json(Unauthorize("Email atau Password salah!"));
@@ -32,16 +32,12 @@ export const Login = async (req: Request, res: Response) => {
     const id = user?.id;
     const email = user?.email;
     const name = user?.name;
-    const role = user?.role;
+    // const role = user?.role;
 
     // Membuat refresh token
-    const token = jwt.sign(
-      { id, name, email, role: role },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "15d",
-      }
-    );
+    const token = jwt.sign({ id, name, email }, process.env.JWT_SECRET, {
+      expiresIn: "15d",
+    });
 
     // Membuat http cookie yang dikirimkan ke sisi client
     res.cookie("token", token, {
@@ -52,12 +48,8 @@ export const Login = async (req: Request, res: Response) => {
     });
     res.json(
       Success("Login success", {
-        data: {
-          token,
-          id,
-          name,
-          role,
-        },
+        logged: true,
+        token,
       })
     );
   } catch (error) {

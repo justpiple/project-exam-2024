@@ -22,6 +22,7 @@ rootRoute
   .filter((file: string) => {
     return (
       /.(js|ts)$/.test(file) ||
+      file.startsWith("_") ||
       fs.lstatSync(__dirname + "/routes/" + file).isDirectory()
     );
   })

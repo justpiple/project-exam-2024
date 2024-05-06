@@ -13,7 +13,6 @@ const router = Router();
 
 // MAIN ROUTER
 router.get("/logout", Logout);
-router.get("/me", auth("ALL"), CurrentSession);
 
 var createUserValidate = [
   check("email", "Email is required").isEmail(),
@@ -28,6 +27,6 @@ var loginValidate = [
   check("password", "Password is required").notEmpty(),
   validateError,
 ];
-router.post("/login", loginValidate, Login);
+router.post("/auth", loginValidate, Login);
 
 export default router;

@@ -18,10 +18,44 @@ enum Roles {
   USER
 }
 
-model User {
-  id       String @id @default(uuid())
-  email    String @unique
-  name     String
-  password String
-  role     Roles  @default(USER)
+model Admin {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Food {
+  id           Int            @id @default(autoincrement())
+  name         String
+  spicy_level  String
+  price        Float          @db.Double
+  image        String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Order_detail Order_detail[]
+}
+
+model Order_list {
+  id            Int            @id @default(autoincrement())
+  customer_name String
+  table_number  String
+  order_date    String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  order_detail  Order_detail[]
+}
+
+model Order_detail {
+  id        Int        @id @default(autoincrement())
+  order_id  Int
+  order     Order_list @relation(fields: [order_id], references: [id])
+  food_id   Int
+  food      Food       @relation(fields: [food_id], references: [id])
+  quantity  Int
+  price     Float      @db.Double
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }

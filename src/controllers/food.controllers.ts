@@ -55,7 +55,7 @@ export const deleteFood = async (req: Request, res: Response) => {
 
 export const postCreateFood = async (req: Request, res: Response) => {
   try {
-    const image = req.files!.image as UploadedFile;
+    const image = req.files?.image as UploadedFile;
     const fileName = Date.now() + "_" + image.name;
     writeFileSync("./public/uploaded/" + fileName, image.data);
     const food = {
@@ -75,9 +75,12 @@ export const postCreateFood = async (req: Request, res: Response) => {
 };
 export const updateFood = async (req: Request, res: Response) => {
   try {
-    const image = req.files!.image as UploadedFile;
-    const fileName = Date.now() + "_" + image.name;
-    writeFileSync("./public/uploaded/" + fileName, image.data);
+    const image = req.files?.image as UploadedFile;
+    let fileName = undefined;
+    if (image) {
+      fileName = Date.now() + "_" + image.name;
+      writeFileSync("./public/uploaded/" + fileName, image.data);
+    }
     const food = {
       name: req.body.name,
       spicy_level: req.body.spicy_level,

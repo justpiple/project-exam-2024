@@ -2,7 +2,12 @@ import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
 export const findAllOrder = (where?: Prisma.Order_listWhereInput) => {
-  return prisma.order_list.findMany({ where, include: { order_detail: true } });
+  return prisma.order_list.findMany({
+    where,
+    include: {
+      order_detail: { include: { food: { select: { name: true } } } },
+    },
+  });
 };
 
 export const findOrder = (where: Prisma.Order_listWhereInput) => {

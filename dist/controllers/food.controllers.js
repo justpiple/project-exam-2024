@@ -97,11 +97,12 @@ var deleteFood = function (req, res) { return __awaiter(void 0, void 0, void 0, 
 exports.deleteFood = deleteFood;
 var postCreateFood = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var image, fileName, food, data, error_3;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                image = req.files.image;
+                _b.trys.push([0, 2, , 3]);
+                image = (_a = req.files) === null || _a === void 0 ? void 0 : _a.image;
                 fileName = Date.now() + "_" + image.name;
                 (0, fs_1.writeFileSync)("./public/uploaded/" + fileName, image.data);
                 food = {
@@ -112,11 +113,11 @@ var postCreateFood = function (req, res) { return __awaiter(void 0, void 0, void
                 };
                 return [4 /*yield*/, (0, food_queries_1.createFood)(food)];
             case 1:
-                data = _a.sent();
+                data = _b.sent();
                 res.status(201).json((0, apiResponse_1.Success)("Food has created", { data: data }));
                 return [3 /*break*/, 3];
             case 2:
-                error_3 = _a.sent();
+                error_3 = _b.sent();
                 console.log(error_3);
                 return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Internal server error"))];
             case 3: return [2 /*return*/];
@@ -126,13 +127,17 @@ var postCreateFood = function (req, res) { return __awaiter(void 0, void 0, void
 exports.postCreateFood = postCreateFood;
 var updateFood = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var image, fileName, food, data, error_4;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                image = req.files.image;
-                fileName = Date.now() + "_" + image.name;
-                (0, fs_1.writeFileSync)("./public/uploaded/" + fileName, image.data);
+                _b.trys.push([0, 2, , 3]);
+                image = (_a = req.files) === null || _a === void 0 ? void 0 : _a.image;
+                fileName = undefined;
+                if (image) {
+                    fileName = Date.now() + "_" + image.name;
+                    (0, fs_1.writeFileSync)("./public/uploaded/" + fileName, image.data);
+                }
                 food = {
                     name: req.body.name,
                     spicy_level: req.body.spicy_level,
@@ -141,11 +146,11 @@ var updateFood = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 };
                 return [4 /*yield*/, (0, food_queries_1.updateFoodById)(parseInt(req.params.id), food)];
             case 1:
-                data = _a.sent();
+                data = _b.sent();
                 res.status(201).json((0, apiResponse_1.CreatedSuccessfully)("Food has created", { data: data }));
                 return [3 /*break*/, 3];
             case 2:
-                error_4 = _a.sent();
+                error_4 = _b.sent();
                 console.log(error_4);
                 return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Internal server error"))];
             case 3: return [2 /*return*/];

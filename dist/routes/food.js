@@ -15,6 +15,7 @@ var file = (0, express_fileupload_1.default)({
 });
 // MAIN ROUTER
 router.get("/:search", food_controllers_1.getFoods);
+router.get("/", food_controllers_1.getFoods);
 router.use((0, auth_1.auth)());
 router.post("/", file, food_controllers_1.postCreateFood);
 router.put("/:id", file, food_controllers_1.updateFood);

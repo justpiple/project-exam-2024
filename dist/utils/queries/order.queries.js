@@ -6,7 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createOrder = exports.deleteOrderById = exports.updateOrderById = exports.findOrder = exports.findAllOrder = void 0;
 var prisma_1 = __importDefault(require("@/lib/prisma"));
 var findAllOrder = function (where) {
-    return prisma_1.default.order_list.findMany({ where: where, include: { order_detail: true } });
+    return prisma_1.default.order_list.findMany({
+        where: where,
+        include: {
+            order_detail: { include: { food: { select: { name: true } } } },
+        },
+    });
 };
 exports.findAllOrder = findAllOrder;
 var findOrder = function (where) {

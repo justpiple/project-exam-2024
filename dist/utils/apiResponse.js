@@ -23,25 +23,24 @@ exports.CreatedSuccessfully = CreatedSuccessfully;
 function InternalServerError(message) {
     return {
         message: message || "Internal server error",
-        status: 500,
-        success: false,
+        status: false,
     };
 }
 exports.InternalServerError = InternalServerError;
 function Forbidden(message) {
-    return { message: message, status: 403, success: false };
+    return { message: message, status: false };
 }
 exports.Forbidden = Forbidden;
 function Unauthorize(message) {
-    return { message: message, status: 401, success: false };
+    return { message: message, status: false };
 }
 exports.Unauthorize = Unauthorize;
 function BadRequest(message) {
-    return { message: message, status: 400, success: false };
+    return { message: message, status: false };
 }
 exports.BadRequest = BadRequest;
 function NotFound(message) {
-    return { message: message, status: 404, success: false };
+    return { message: message, status: false };
 }
 exports.NotFound = NotFound;
 //# sourceMappingURL=apiResponse.js.map

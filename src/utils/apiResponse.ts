@@ -9,23 +9,22 @@ export function CreatedSuccessfully(message: string, otherResponses?: Object) {
 export function InternalServerError(message?: string) {
   return {
     message: message || "Internal server error",
-    status: 500,
-    success: false,
+    status: false,
   };
 }
 
 export function Forbidden(message: string) {
-  return { message, status: 403, success: false };
+  return { message, status: false };
 }
 
 export function Unauthorize(message: string) {
-  return { message, status: 401, success: false };
+  return { message, status: false };
 }
 
 export function BadRequest(message: string) {
-  return { message, status: 400, success: false };
+  return { message, status: false };
 }
 
 export function NotFound(message: string) {
-  return { message, status: 404, success: false };
+  return { message, status: false };
 }

@@ -18,6 +18,7 @@ const file = fileUpload({
 
 // MAIN ROUTER
 router.get("/:search", getFoods);
+router.get("/", getFoods);
 
 router.use(auth());
 router.post("/", file, postCreateFood);

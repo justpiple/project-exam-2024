@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var auth_1 = require("@/middleware/auth");
 var express_1 = require("express");
 var express_fileupload_1 = __importDefault(require("express-fileupload"));
-var food_controllers_1 = require("@/controllers/auth/food.controllers");
+var food_controllers_1 = require("@/controllers/food.controllers");
 var router = (0, express_1.Router)();
 var file = (0, express_fileupload_1.default)({
     useTempFiles: false,

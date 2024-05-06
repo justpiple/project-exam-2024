@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var auth_1 = require("@/middleware/auth");
 var express_1 = require("express");
-var order_controllers_1 = require("@/controllers/auth/order.controllers");
+var order_controllers_1 = require("@/controllers/order.controllers");
 var router = (0, express_1.Router)();
 // MAIN ROUTER
 router.use((0, auth_1.auth)());

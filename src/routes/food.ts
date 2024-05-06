@@ -1,20 +1,12 @@
-import {
-  CurrentSession,
-  Login,
-  Logout,
-} from "@/controllers/auth/auth.controllers";
-import { postCreateUser } from "@/controllers/auth/user.controllers";
 import { auth } from "@/middleware/auth";
-import { validateError } from "@/middleware/validateError";
 import { Router } from "express";
-import { check } from "express-validator";
-import fileUpload, { UploadedFile } from "express-fileupload";
+import fileUpload from "express-fileupload";
 import {
   deleteFood,
   getFoods,
   postCreateFood,
   updateFood,
-} from "@/controllers/auth/food.controllers";
+} from "@/controllers/food.controllers";
 
 const router = Router();
 

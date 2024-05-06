@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var auth_controllers_1 = require("@/controllers/auth/auth.controllers");
-var user_controllers_1 = require("@/controllers/auth/user.controllers");
+var auth_controllers_1 = require("@/controllers/auth.controllers");
+var user_controllers_1 = require("@/controllers/user.controllers");
 var validateError_1 = require("@/middleware/validateError");
 var express_1 = require("express");
 var express_validator_1 = require("express-validator");

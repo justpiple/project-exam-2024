@@ -1,4 +1,10 @@
-# UKL Kelas XI RPL Node 2024 Backend
+# Restaurant Booking System  
+**Project Exam 2024**  
+**SMK Telkom Malang**
+
+## Overview  
+## Overview  
+This repository contains the project developed for the Level-Up Examination at SMK Telkom Malang. The project showcases technical skills and problem-solving abilities gained during the learning period.
 
 ```bash
 npm install
